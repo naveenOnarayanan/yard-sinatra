@@ -1,0 +1,53 @@
+<html>
+<head>
+  <title><%= @api_name %> Resource</title>
+  <link rel='stylesheet' type='text/css' href='stylesheets/doc_style.css'/>
+</head>
+<body id="page-docs" class="not-front not-logged-in no-sidebars">
+  <div id='page'>
+    <%= erb :header %>
+    <div id='content-outer'>
+      <h1 id="title"><%= @api_name %> Resources</h1>
+      <div id="content-inner">
+        <div id="content-main">
+          <div class="view api-docs">
+            <div class="content">
+              <% resources.each do |resource| %>
+                <table class="views-table cols-2">
+                  <caption>
+                    <a title="<%= resource.titleize %>" id="109" name="109"></a>
+                    <strong><%= resource.pluralize.titleize %></strong>
+                    <p><%= resource_description resource %></p>
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th class="views-field views-field-title">Resource</th>
+                      <th class="views-field views-field-body">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% routes_for_resource(resource).each do |route| %>
+                    <tr class="odd views-row-first">
+                      <td class="views-field views-field-title">
+                        <a href="<%= filename_for_route(route) %>"><%= route.http_verb %> <%= route.http_path %></a>
+                      </td>
+                      <td class="views-field views-field-body">
+                        <% if route.docstring.blank? %>
+                          <span style='color:#e74c3c; opacity:0.5;'>Endpoint documentation missing.</span>
+                        <% else %>
+                          <%= route.docstring %>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

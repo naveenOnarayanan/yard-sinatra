@@ -1,0 +1,111 @@
+<html>
+<head>
+  <title><%= @api_name %> Resource</title>
+  <link rel='stylesheet' type='text/css' href='stylesheets/doc_style.css'/>
+</head>
+<body id="page-node" class="not-front not-logged-in node-type-api-doc showing-tabs">
+  <div id='page'>
+    <%= erb :header %>
+    <div id='content-outer'>
+      <h1 id="title"><%= @route.http_verb %> <%= @route.http_path %></h1>
+      <div id="content-inner">
+        <div id="content-main">
+          <div><%= @route.docstring %></div>
+          <br />
+          <div class="field text field-doc-resource-url">
+            <h2>Resource URL</h2>
+            <div class="odd"><%= @api_url %><%= @route.http_path %></div>
+          </div>
+          <div class="field text field-doc-params">
+            <h2>Parameters</h2>
+            <div class="odd">
+              <% @route.tags(:param).each do |param| %>
+                <div class="parameter">
+                  <span class="param">
+                    <%= param.name %>
+                    <!-- <span>optional</span> -->
+                    <span><%= param.type %></span>
+                  </span>
+                  <p><%= param.text %></p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+
+          <div class="fieldgroup group-example-request">
+            <h2>Example Request</h2>
+            <div class="content">
+              <table>
+                <tbody>
+                  <tr class="odd">
+                    <td>GET</td>
+                    <td><%= @route.http_path %></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="field text field-doc-examples">
+                <div class="odd">
+                  <% response_object = controller_or_route_tag( @route, :api_response_object ) %>
+                  <% if response_object.present? %>
+                    <%# puts "~~~>> #{response_object.text}" %>
+                    <% obj = object_at(response_object.text) %>
+                    <%# puts "~~~~~~~>> #{obj.inspect}" %>
+                    <% if obj.present? && obj.tags(:response_attr).present? %>
+                      <% json_attributes = obj.tags(:response_attr).map(&:name) %>
+                      <% #puts "~~~~>> #{json_attributes.inspect}" %>
+                      <%= json_attributes.to_json %>
+                    <% end %>
+                  <% end %>
+                  (response goes here)
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div id="sidebar-last">
+          <div class="block api-doc-block">
+            <h2>Resource Information</h2>
+            <table>
+            <tbody>
+              <tr class="odd">
+                <td>Authentication</td>
+                <td>None</td>
+              </tr>
+              <% if @route.tags(:api_response_format).present? %>
+                <tr class="even">
+                  <td>Response Format(s)</td>
+                  <td><%= @route.tags(:api_response_format).map(&:text).join(", ") %></td>
+                </tr>
+              <% end %>
+              <tr class="odd">
+                <td>HTTP Method</td>
+                <td><%= @route.http_verb %></td>
+              </tr>
+              <% if resource_for_route(@route).present? %>
+                <tr class="even">
+                  <td>Resource family</td>
+                  <td><%= resource_for_route(@route).pluralize.titleize %></td>
+                </tr>
+              <% end %>
+              
+              <% if controller_or_route_tag(@route,:api_resource_object).present? %>
+                <tr class="odd">
+                  <td>Response Object</td>
+                  <td><%= controller_or_route_tag(@route,:api_resource_object).text.split('::').last %></td>
+                </tr>
+              <% end %>
+              <!-- <tr class="even">
+                <td>API Version</td>
+                <td>v1.0</td>
+              </tr> -->
+            </tbody>
+            </table>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

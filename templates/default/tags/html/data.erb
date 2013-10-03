@@ -1,0 +1,22 @@
+ <% object.tags(:response_field).each do |param| %>
+    <% tags = object.tags(:data).select {|x| x.name.to_s == param.name.to_s } %>
+    <% next if tags.empty? %>
+    <p class="tag_title">Response Data Hash (<tt><%= param.name %></tt>):</p>
+    <ul class="option">
+      <% for tag in tags %>
+        <li>
+          <span class="name"><%= tag.pair.name %></span>
+          <span class="type"><%= format_types(tag.pair.types || ['Object']) %></span>
+          <span class="default">
+            <% if tag.pair.defaults %>
+              &mdash; default:
+              <%= tag.pair.defaults.map {|t| "<tt>#{h t}</tt>" }.join(", ") %>
+            <% end %>
+          </span>
+          <% if tag.pair.text && tag.pair.text =~ /\S/ %>
+            &mdash; <%= htmlify_line(tag.pair.text) %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
