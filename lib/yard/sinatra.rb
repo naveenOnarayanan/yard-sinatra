@@ -15,8 +15,15 @@ module YARD
     class RouteObject < MethodObject
       attr_accessor :http_verb, :http_path, :real_name
 
-      def name(prefix=false)
-        super(false)
+      def name(prefix = false)
+        return super unless show_real_name?
+        prefix ? (sep == ISEP ? "#{sep}#{real_name}" : real_name.to_s) : real_name.to_sym
+      end
+
+      # @see YARD::Handlers::Sinatra::AbstractRouteHandler#register_route
+      # @see #name
+      def show_real_name?
+        real_name and caller[1] =~ /`signature'/
       end
 
       def type
