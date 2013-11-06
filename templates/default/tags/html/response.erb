@@ -1,13 +1,22 @@
 <% if object.has_tag?(:response) %>
   <div class="examples">
     <p class="tag_title">Response:</p>
-    <% object.tags(:response).each do |tag| %>
-      <p>
-	      <b>
-	        <%= tag.name %>
-	      </b>
-	        (<%= tag.type %>) — <%= tag.text %>
-      </p>
-    <% end %>
+    <ul class="param">
+      <% object.tags(:response).each do |tag| %>
+      <li>
+        <span class="name"><%= tag.name %></span>
+        <span class="type">"("<tt><%= tag.type %></tt>")"</span>
+		        "
+	      
+	      
+	      
+	        —
+	        "
+	    <div class="inline">
+	      <p><%= tag.text %></p>
+	    </div>
+      </li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
