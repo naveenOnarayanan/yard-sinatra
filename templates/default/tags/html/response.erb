@@ -2,13 +2,11 @@
   <div class="examples">
     <p class="tag_title">Response:</p>
     <% object.tags(:response).each do |tag| %>
-      <b>
-        <%= tag.name %>
-      </b>
-      <%= puts "Name: #{tag.name}"%>
       <p>
-          <%= puts "text: #{tag.text}"%>
-          <%= tag.text %>
+	      <b>
+	        <%= tag.name %>
+	      </b>
+	        (<%= tag.type %>) — <%= tag.text %>
       </p>
     <% end %>
   </div>
