@@ -1,7 +1,7 @@
-<% if object.has_tag?(:response) %>
+<% if object.has_tag?(:request) %>
   <p class="tag_title">Request:</p>
   <ul class="param">
-    <% object.tags(:response).each do |tag| %>
+    <% object.tags(:request).each do |tag| %>
     <li>
       <span class="name"><%= tag.name %></span>
       <span class="type">(<tt><%= tag.type %></tt>)</span>
