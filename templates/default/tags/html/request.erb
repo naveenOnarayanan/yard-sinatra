@@ -1,20 +1,20 @@
 <% if object.has_tag?(:request) %>
-  <p class="tag_title">Request:</p>
-  <ul class="param">
-    <% object.tags(:request).each do |tag| %>
-    <li>
-      <span class="name"><%= tag.name %></span>
-      <span class="type">(<tt><%= tag.type %></tt>)</span>
-       
+<p class="tag_title">Request:</p>
+<ul class="param">
+  <% object.tags(:request).each do |tag| %>
+  <li>
+    <span class="name"><%= tag.name %></span>
+    <span class="type">(<tt><%= tag.type %></tt>)</span>
+     
+    
+    
+    
+      —
       
-      
-      
-        —
-        
-      <div class="inline">
-        <p><%= tag.text %></p>
-      </div>
-    </li>
-    <% end %>
-  </ul>
+    <div class="inline">
+      <p><%= tag.text %></p>
+    </div>
+  </li>
+  <% end %>
+</ul>
 <% end %>
